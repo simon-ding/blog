@@ -106,8 +106,8 @@ copyright = ""            # default: author.name ↓        # 默认为下面配
 
   # Link custom CSS and JS assets
   #   (relative to /static/css and /static/js respectively)
-  customCSS = ["https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css"]
-  customJS = ["https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"]
+  customCSS = []
+  customJS = []
 
   uglyURLs = false          # please keep same with uglyurls setting
 
