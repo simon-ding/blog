@@ -6,7 +6,7 @@ draft: false
 keywords: []
 description: ""
 #tags: ["编程", "摄影"]
-#categories: ["编程", "摄影"]
+categories: ["编程"]
 author: "simon"
 ---
 
