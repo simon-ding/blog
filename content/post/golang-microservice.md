@@ -5,7 +5,7 @@ lastmod: 2020-01-17T22:19:48+08:00
 draft: false
 keywords: []
 description: ""
-tags: []
+tags: ["编程"]
 categories: ["编程"]
 author: "simon"
 ---
@@ -87,3 +87,4 @@ B站也有其开源的 [Kratos](https://github.com/bilibili/kratos)，另外华�
 ## 感悟
 
 自己之前也没有接触过微服务，这算是自己做的第一个微服务实践。由于公司也没有懂这方面的人，一切都是我自己搜集文档、了解微服务当中的概念，一点点试错，一点点搭起来的。但第一次实践微服务，肯定有很多不成熟的地方。  
+
