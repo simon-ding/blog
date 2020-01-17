@@ -2,7 +2,7 @@
 title: "spring boot项目集成elk收集项目日志"
 date: 2019-05-16T01:31:13+08:00
 lastmod: 2019-05-16T01:31:13+08:00
-draft: true
+draft: false
 keywords: []
 description: ""
 #tags: ["编程", "摄影"]
