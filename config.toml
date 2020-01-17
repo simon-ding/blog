@@ -106,8 +106,8 @@ copyright = ""            # default: author.name ↓        # 默认为下面配
 
   # Link custom CSS and JS assets
   #   (relative to /static/css and /static/js respectively)
-  customCSS = []
-  customJS = []
+  customCSS = ["https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css"]
+  customJS = ["https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"]
 
   uglyURLs = false          # please keep same with uglyurls setting
 
@@ -137,8 +137,8 @@ copyright = ""            # default: author.name ↓        # 默认为下面配
     clientSecret = ""       # Your client secret
 
   [params.utterances]       # https://utteranc.es/
-    owner = ""              # Your GitHub ID
-    repo = ""               # The repo to store comments
+    owner = "simon-ding"              # Your GitHub ID
+    repo = "blog-comment"               # The repo to store comments
 
   [params.gitalk]           # Gitalk is a comment system based on GitHub issues. see https://github.com/gitalk/gitalk
     owner = ""              # Your GitHub ID
