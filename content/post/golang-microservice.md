@@ -64,7 +64,7 @@ B站也有其开源的 [Kratos](https://github.com/bilibili/kratos)，另外华�
 ## 架构
 
 根据我们的需求，选择go-micro这种比较全面的框架更适合我们。我们系统的微服务框架如下：
-![tea-arch](media/15790773894307/tea-arch.png)
+![tea-arch](../../img/tea-arch.png)
 
 * UI作为用户的入口，用户通过浏览器访问web页面
 * micro作为api网关，反向代理tea-api部分的rest api，同时提供负载均衡的功能。
