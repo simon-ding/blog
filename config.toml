@@ -5,7 +5,7 @@ defaultContentLanguage = "zh-cn"                             # en / zh-cn / ... 
 paginate = "10" # Number of posts per page
 theme = "mainroad"
 disqusShortname = "" # Enable Disqus comments by entering your Disqus shortname
-googleAnalytics = "" # Enable Google Analytics by entering your tracking id
+googleAnalytics = "UA-106746611-1" # Enable Google Analytics by entering your tracking id
 hasCJKLanguage = true     # has chinese/japanese/korean ? # 自动检测是否包含 中文\日文\韩文
 enableEmoji = true
 
