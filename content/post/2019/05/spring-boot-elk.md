@@ -14,7 +14,8 @@ author: "simon"
 
 elk代表elasticsearch、logstash和kibana，是最为成熟的一套日志收集平台。logstash负责收集日志，elasticsearch负责存储日志和对日志进行索引，kibana负责日志的展示。
 
-<!-- more -->
+<!--more-->
+
 ## 搭建elk环境
 ### 配置
 我们使用docker和docker-compose来部署elk平台，docker-compose文件如下：

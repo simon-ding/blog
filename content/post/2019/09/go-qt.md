@@ -20,7 +20,8 @@ github主页上有详细的安装方法，但是由于中国的网络环境。�
 
 **我下面的坑都是在 Mac 环境下的，windows下可以做参考**
 
-<!-- more -->
+<!--more-->
+
 ## 坑一：安装
 
 MacOS 上安装qt绑定，基本是按这个文档 [Installation on macOS](https://github.com/therecipe/qt/wiki/Installation-on-macOS)，不过中间有好多坑要注意。
