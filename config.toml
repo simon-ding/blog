@@ -12,7 +12,7 @@ enableEmoji = true
 [Author] # Used in authorbox
   name = "Simon Ding"
   bio = "韶华易逝，只争朝夕"
-  #avatar = "img/avatar.png"
+  avatar = "img/avatar.png"
 
 [Params]
   subtitle = "韶华易逝，只争朝夕" # Subtitle of your site. Used in site header
