@@ -24,7 +24,7 @@ enableEmoji = true
   authorbox = true # Show authorbox at bottom of pages if true
   toc = true # Enable Table of Contents
   post_navigation = true # Show post navigation at bottom of pages if true
-  post_meta = ["date", "categories", "translations"] # Order of post meta information
+  post_meta = ["date", "categories", "translations", "word-count"] # Order of post meta information
   mainSections = ["post", "blog", "news"] # Specify section pages to show on home page and the "Recent articles" widget
   dateformat = "2006-01-02" # Change the format of dates
   mathjax = true # Enable MathJax
@@ -34,7 +34,7 @@ enableEmoji = true
   customCSS = ["css/custom.css"] # Include custom CSS files
   customJS = ["js/custom.js"] # Include custom JS files
   comments = true
-
+  
 [Params.sidebar]
   home = "right" # Configure layout for home page
   list = "right"  # Configure layout for list pages
