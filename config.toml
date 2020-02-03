@@ -69,7 +69,7 @@ enableEmoji = true
 #  url = "http://example.com"
 
 [[menu.main]]             # config your menu              # 配置目录
-  name = "  主页  "
+  name = "主页"
   weight = 10
   identifier = "home"
   url = "/"
