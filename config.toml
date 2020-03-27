@@ -73,3 +73,12 @@ enableEmoji = true
   weight = 10
   identifier = "home"
   url = "/"
+
+[[menu.main]]             # config your menu              # 配置目录
+  name = "Instagram"
+  weight = 11
+  url = "https://www.instagram.com/simon_ding_/" 
+[[menu.main]]             # config your menu              # 配置目录
+  name = "500px"
+  weight = 12
+  url = "https://500px.me/simonding" 
