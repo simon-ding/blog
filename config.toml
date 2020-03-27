@@ -82,3 +82,8 @@ enableEmoji = true
   name = "500px"
   weight = 12
   url = "https://500px.me/simonding" 
+
+[markup]
+  [markup.blackFriday]
+  plainIDAnchors = true
+  hrefTargetBlank = true
