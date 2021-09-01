@@ -1,5 +1,201 @@
-<!doctype html><html class=no-js lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><title>微服务介绍以及 go 语言微服务实践 - SimonDing 的博客</title><script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script><meta name=description content><meta property="og:title" content="微服务介绍以及 go 语言微服务实践"><meta property="og:description" content="这几年微服务的概念大火。很多做开发的都听说过微服务这个概念，最近我也在自己负责的项目当中实践了一次微服务。 什么是微服务 知乎上有个回答，对这个"><meta property="og:type" content="article"><meta property="og:url" content="https://simonding.com/post/2020/01/golang-microservice/"><meta property="article:published_time" content="2020-01-17T22:19:48+08:00"><meta property="article:modified_time" content="2020-01-17T22:19:48+08:00"><link rel=dns-prefetch href=//fonts.googleapis.com><link rel=dns-prefetch href=//fonts.gstatic.com><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700"><link rel=stylesheet href=/css/style.css><link rel=stylesheet href=/css/custom.css><link rel="shortcut icon" href=/favicon.ico><script type=application/javascript>var doNotTrack=false;if(!doNotTrack){window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;ga('create','UA-106746611-1','auto');ga('send','pageview');}</script><script async src=https://www.google-analytics.com/analytics.js></script></head><body class=body><div class="container container--outer"><header class=header><div class=container><div class=logo><a class=logo__link href=/ title="SimonDing 的博客" rel=home><div class=logo__title>SimonDing 的博客</div><div class=logo__tagline>韶华易逝，只争朝夕</div></a></div><nav class=menu><button class=menu__btn aria-haspopup=true aria-expanded=false tabindex=0>
-<span class=menu__btn-title tabindex=-1>菜单</span></button><ul class=menu__list><li class=menu__item><a class=menu__link href=/><span class=menu__text>主页</span></a></li><li class=menu__item><a class=menu__link href=https://www.instagram.com/simon_ding_/ target=_blank><span class=menu__text>Instagram</span></a></li><li class=menu__item><a class=menu__link href=https://500px.me/simonding target=_blank><span class=menu__text>500px</span></a></li><li class=menu__item><a class=menu__link href=/about/><span class=menu__text>关于</span></a></li></ul></nav></div></header><div class="wrapper flex"><div class=primary><main class=main role=main><article class=post><header class=post__header><h1 class=post__title>微服务介绍以及 go 语言微服务实践</h1><div class="post__meta meta"><div class="meta__item-datetime meta__item"><svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class=meta__text datetime=2020-01-17T22:19:48>2020-01-17</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2 1 2h8v11H0V2z"/></svg><span class=meta__text><a class=meta__link href=/categories/%E7%BC%96%E7%A8%8B/ rel=category>编程</a></span></div><span class=meta__text>&emsp; 共 1728 字</span></div></header><div class="post__toc toc"><div class=toc__title>目录</div><div class=toc__menu><nav id=TableOfContents><ul><li><a href=#什么是微服务>什么是微服务</a></li><li><a href=#框架选型>框架选型</a><ul><li><a href=#go-kit>go-kit</a></li><li><a href=#go-micro>go micro</a></li><li><a href=#其它框架>其它框架</a></li></ul></li><li><a href=#架构>架构</a><ul><li><a href=#服务拆分>服务拆分</a></li></ul></li><li><a href=#部署>部署</a></li><li><a href=#感悟>感悟</a></li></ul></nav></div></div><div class="content post__content clearfix"><p>这几年微服务的概念大火。很多做开发的都听说过微服务这个概念，最近我也在自己负责的项目当中实践了一次微服务。</p><h2 id=什么是微服务>什么是微服务</h2><p>知乎上有个回答，对这个问题回答的挺好：<a href=https://www.zhihu.com/question/65502802/answer/802678798>什么是微服务架构？ - 老刘的回答 - 知乎</a></p><p>我在这里简单说一下。一般来说开发软件的初期都会选择单体架构(Monolithic Architecture)，所有功能都打包到一个单一程序当中。</p><p>随着项目的迭代，这个单体应用的功能会越加越多，例如一个电商应用可能包含了用户管理、订单管理、商品管理、和促销活动等不同功能的模块，现在是移动互联网的时代，不仅要有web界面的api，移动端可能也要单独维护一套api。</p><p>这样这套架构也变得非常复杂，各个功能之间的耦合也非常严重。不利于新功能开发，而且一旦熟悉系统的老员工离职，新来的员工也非常难以接手这套系统。</p><p>微服务构架就是对这个挑战的一种解决方案之一。简单来说，微服务就是把原来大而全的单体应用拆分成功能独立的、自洽的小而美的多个应用的组合。</p><p>理想的微服务架构下各个服务可以用用最擅长的语言来写。例如，web业务方面可以用java来写，数据处理方面的功能可以用python来写，高性能计算任务可以用C++来写。这样，各个语言可以做自己最擅长的事情。</p><p>然而理想是丰满的，而现实是骨感的。现阶段不管是java系的spring cloud或dubbo还是go语言的go micro和go-kit都限制使用单一语言来开发。（下一阶段的service mesh框架可以解决这个问题，这不在本次的讨论之中）</p><h2 id=框架选型>框架选型</h2><p>微服务带来很多好处的同时，也增加了很多复杂度。微服务架构本质上来说是一种分布式框架，要解决很多由于分布式带来的问题：服务注册、服务发现、配置管理、链路追踪……</p><p>我们可以自己解决这个问题，但为了方便起见我们还是选择成熟的框架，让框架来处理这些细节问题，开发人员更专注于功能的开发。</p><p>由于我们项目使用的go语言，调研了几个go语言的微服务框架：</p><h3 id=go-kit>go-kit</h3><p><a href=https://github.com/go-kit/kit>go-kit</a> 是用来构建go微服务（或优雅单体应用）的工具包。</p><p>go-kit更关注于集成微服务的各种工具，本身没有提供太多抽象。其项目更想融入你现有的系统当中去，而不是提供一个大而全的解决方案</p><h3 id=go-micro>go micro</h3><p><a href=https://github.com/micro/go-micro>go-micro</a> 是go语言微服务开发框架。</p><p>go-micro引入了更多的功能，提供了微服务的一站式解决方案：</p><ul><li>服务发现</li><li>负载均衡</li><li>消息编码</li><li>请求/响应</li><li>异步消息</li><li>可插拔接口</li></ul><p>go-micro还提供了一个简单的API网关，也叫micro。可以用作反向代理和负载均衡等功能。</p><h3 id=其它框架>其它框架</h3><p>B站也有其开源的 <a href=https://github.com/bilibili/kratos>Kratos</a>，另外华为貌似也有个servercomb框架，我没有做过多研究。</p><h2 id=架构>架构</h2><p>根据我们的需求，选择go-micro这种比较全面的框架更适合我们。我们系统的微服务框架如下：
-<img src=../../../../img/tea-arch.png alt=tea-arch></p><ul><li>UI作为用户的入口，用户通过浏览器访问web页面</li><li>micro作为api网关，反向代理tea-api部分的rest api，同时提供负载均衡的功能。</li><li>etcd作为服务注册和服务发现中心，同时充当配置中心的功能</li></ul><h3 id=服务拆分>服务拆分</h3><p>搭好基本的框架之后我们就要拆分现有的服务。我们的项目算是一个NLP平台，根据定义的规则，解析输入的语句，如果语句符合对应的规则，就打上对应的标签。</p><p>所以对于我们这个项目核心功能就是规则的解析和语句的匹配功能，我把这块叫做tea-core。另外有一部分负责和web交互，提供对应的api。另外还提供了tea-core之上封装的一些功能：规则树编辑、跑批支持、测试集、系统配置等等功能，我把这块叫做tea-web。</p><p>在代码中这两块本来耦合就比较少，拆分过程还是很容易的。拆分出来的两部分通过grpc通讯，解决两部分耦合的问题。</p><h2 id=部署>部署</h2><p>项目代码推送到主分支之后，我们会使用gitlab的CICD工具，自动化构建docker镜像。然后推送到我们私有的阿里云docker registry服务器上去。部署时使用docker-compose来部署
-。</p><p>由于自动化CICD的应用和docker镜像的打包，极大的减轻了我们自己的运维负担。</p><h2 id=感悟>感悟</h2><p>自己之前也没有接触过微服务，这算是自己做的第一个微服务实践。由于公司也没有懂这方面的人，一切都是我自己搜集文档、了解微服务当中的概念，一点点试错，一点点搭起来的。但第一次实践微服务，肯定有很多不成熟的地方。</p></div><footer class=post__footer><div class="post__tags tags clearfix"><svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5.0 11V3C0 1.5.8.8.8.8S1.5.0 3 0h8c1.5.0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 100-6 3 3 0 000 6z"/></svg><ul class=tags__list><li class=tags__item><a class="tags__link btn" href=/tags/%E7%BC%96%E7%A8%8B/ rel=tag>编程</a></li></ul></div></footer></article></main><div class="authorbox clearfix"><figure class=authorbox__avatar><img alt="Simon Ding avatar" src=/img/avatar.png class=avatar height=90 width=90></figure><div class=authorbox__header><span class=authorbox__name>关于 Simon Ding</span></div><div class=authorbox__description>韶华易逝，只争朝夕</div></div><nav class="post-nav flex"><div class="post-nav__item post-nav__item--prev"><a class=post-nav__link href=/post/2019/09/go-qt/ rel=prev><span class=post-nav__caption>«&#8201;上一篇</span><p class=post-nav__post-title>Go 语言 QT 开发踩坑</p></a></div></nav><section class=comments><script src=https://utteranc.es/client.js repo=simon-ding/blog-comment issue-term=pathname theme=github-light crossorigin=anonymous async></script></section></div></div><footer class=footer><div class="container footer__container flex"><div class=footer__copyright>&copy; 2020 Simon Ding.
-<span class=footer__copyright-credits>基于 <a href=https://gohugo.io/ rel="nofollow noopener" target=_blank>Hugo</a> 引擎和 <a href=https://github.com/Vimux/Mainroad/ rel="nofollow noopener" target=_blank>Mainroad</a>主題</span></div><script async src=//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js></script><span id=busuanzi_container_site_pv>本站总访问量<span id=busuanzi_value_site_pv></span>次</span></div></footer></div><script async defer src=/js/menu.js></script><script src=/js/custom.js></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script></body></html>
+<!doctype html><html class=no-js lang=en>
+<head>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta http-equiv=x-ua-compatible content="IE=edge">
+<title>微服务介绍以及 go 语言微服务实践 - SimonDing 的博客</title>
+<script>(function(a,b){a[b]=a[b].replace("no-js","js")})(document.documentElement,"className")</script>
+<meta name=description content>
+<meta property="og:title" content="微服务介绍以及 go 语言微服务实践">
+<meta property="og:description" content="这几年微服务的概念大火。很多做开发的都听说过微服务这个概念，最近我也在自己负责的项目当中实践了一次微服务。 什么是微服务 知乎上有个回答，对这个">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://simonding.com/post/2020/01/golang-microservice/"><meta property="article:section" content="post">
+<meta property="article:published_time" content="2020-01-17T22:19:48+08:00">
+<meta property="article:modified_time" content="2020-01-17T22:19:48+08:00">
+<link rel=dns-prefetch href=//fonts.googleapis.com>
+<link rel=dns-prefetch href=//fonts.gstatic.com>
+<link rel=stylesheet href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+<link rel=stylesheet href=/css/style.css>
+<link rel=stylesheet href=/css/custom.css>
+<link rel="shortcut icon" href=/favicon.ico>
+<script type=application/javascript>var doNotTrack=!1;doNotTrack||(window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga('create','UA-106746611-1','auto'),ga('send','pageview'))</script>
+<script async src=https://www.google-analytics.com/analytics.js></script>
+</head>
+<body class=body>
+<div class="container container--outer">
+<header class=header>
+<div class=container>
+<div class=logo>
+<a class=logo__link href=/ title="SimonDing 的博客" rel=home>
+<div class=logo__title>SimonDing 的博客</div>
+<div class=logo__tagline>韶华易逝，只争朝夕</div>
+</a>
+</div>
+<nav class=menu>
+<button class=menu__btn aria-haspopup=true aria-expanded=false tabindex=0>
+<span class=menu__btn-title tabindex=-1>菜单</span>
+</button>
+<ul class=menu__list>
+<li class=menu__item>
+<a class=menu__link href=/>
+<span class=menu__text>主页</span>
+</a>
+</li>
+<li class=menu__item>
+<a class=menu__link href=https://www.instagram.com/simon_ding_/ target=_blank>
+<span class=menu__text>Instagram</span>
+</a>
+</li>
+<li class=menu__item>
+<a class=menu__link href=https://500px.me/simonding target=_blank>
+<span class=menu__text>500px</span>
+</a>
+</li>
+<li class=menu__item>
+<a class=menu__link href=/about/>
+<span class=menu__text>关于</span>
+</a>
+</li>
+</ul>
+</nav>
+</div>
+</header>
+<div class="wrapper flex">
+<div class=primary>
+<main class=main role=main>
+<article class=post>
+<header class=post__header>
+<h1 class=post__title>微服务介绍以及 go 语言微服务实践</h1>
+<div class="post__meta meta">
+<div class="meta__item-datetime meta__item"><svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg>
+<time class=meta__text datetime=2020-01-17T22:19:48>2020-01-17</time>
+</div>
+<div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2 1 2h8v11H0V2z"/></svg>
+<span class=meta__text><a class=meta__link href=/categories/%E7%BC%96%E7%A8%8B/ rel=category>编程</a>
+</span>
+</div><span class=meta__text>&emsp; 共 1728 字 </span>
+</div>
+</header>
+<div class="post__toc toc">
+<div class=toc__title>目录</div>
+<div class=toc__menu>
+<nav id=TableOfContents>
+<ul>
+<li><a href=#什么是微服务>什么是微服务</a></li>
+<li><a href=#框架选型>框架选型</a>
+<ul>
+<li><a href=#go-kit>go-kit</a></li>
+<li><a href=#go-micro>go micro</a></li>
+<li><a href=#其它框架>其它框架</a></li>
+</ul>
+</li>
+<li><a href=#架构>架构</a>
+<ul>
+<li><a href=#服务拆分>服务拆分</a></li>
+</ul>
+</li>
+<li><a href=#部署>部署</a></li>
+<li><a href=#感悟>感悟</a></li>
+</ul>
+</nav>
+</div>
+</div>
+<div class="content post__content clearfix">
+<p>这几年微服务的概念大火。很多做开发的都听说过微服务这个概念，最近我也在自己负责的项目当中实践了一次微服务。</p>
+<h2 id=什么是微服务>什么是微服务</h2>
+<p>知乎上有个回答，对这个问题回答的挺好：<a href=https://www.zhihu.com/question/65502802/answer/802678798>什么是微服务架构？ - 老刘的回答 - 知乎</a></p>
+<p>我在这里简单说一下。一般来说开发软件的初期都会选择单体架构(Monolithic Architecture)，所有功能都打包到一个单一程序当中。</p>
+<p>随着项目的迭代，这个单体应用的功能会越加越多，例如一个电商应用可能包含了用户管理、订单管理、商品管理、和促销活动等不同功能的模块，现在是移动互联网的时代，不仅要有web界面的api，移动端可能也要单独维护一套api。</p>
+<p>这样这套架构也变得非常复杂，各个功能之间的耦合也非常严重。不利于新功能开发，而且一旦熟悉系统的老员工离职，新来的员工也非常难以接手这套系统。</p>
+<p>微服务构架就是对这个挑战的一种解决方案之一。简单来说，微服务就是把原来大而全的单体应用拆分成功能独立的、自洽的小而美的多个应用的组合。</p>
+<p>理想的微服务架构下各个服务可以用用最擅长的语言来写。例如，web业务方面可以用java来写，数据处理方面的功能可以用python来写，高性能计算任务可以用C++来写。这样，各个语言可以做自己最擅长的事情。</p>
+<p>然而理想是丰满的，而现实是骨感的。现阶段不管是java系的spring cloud或dubbo还是go语言的go micro和go-kit都限制使用单一语言来开发。（下一阶段的service mesh框架可以解决这个问题，这不在本次的讨论之中）</p>
+<h2 id=框架选型>框架选型</h2>
+<p>微服务带来很多好处的同时，也增加了很多复杂度。微服务架构本质上来说是一种分布式框架，要解决很多由于分布式带来的问题：服务注册、服务发现、配置管理、链路追踪……</p>
+<p>我们可以自己解决这个问题，但为了方便起见我们还是选择成熟的框架，让框架来处理这些细节问题，开发人员更专注于功能的开发。</p>
+<p>由于我们项目使用的go语言，调研了几个go语言的微服务框架：</p>
+<h3 id=go-kit>go-kit</h3>
+<p><a href=https://github.com/go-kit/kit>go-kit</a> 是用来构建go微服务（或优雅单体应用）的工具包。</p>
+<p>go-kit更关注于集成微服务的各种工具，本身没有提供太多抽象。其项目更想融入你现有的系统当中去，而不是提供一个大而全的解决方案</p>
+<h3 id=go-micro>go micro</h3>
+<p><a href=https://github.com/micro/go-micro>go-micro</a> 是go语言微服务开发框架。</p>
+<p>go-micro引入了更多的功能，提供了微服务的一站式解决方案：</p>
+<ul>
+<li>服务发现</li>
+<li>负载均衡</li>
+<li>消息编码</li>
+<li>请求/响应</li>
+<li>异步消息</li>
+<li>可插拔接口</li>
+</ul>
+<p>go-micro还提供了一个简单的API网关，也叫micro。可以用作反向代理和负载均衡等功能。</p>
+<h3 id=其它框架>其它框架</h3>
+<p>B站也有其开源的 <a href=https://github.com/bilibili/kratos>Kratos</a>，另外华为貌似也有个servercomb框架，我没有做过多研究。</p>
+<h2 id=架构>架构</h2>
+<p>根据我们的需求，选择go-micro这种比较全面的框架更适合我们。我们系统的微服务框架如下：
+<img src=../../../../img/tea-arch.png alt=tea-arch></p>
+<ul>
+<li>UI作为用户的入口，用户通过浏览器访问web页面</li>
+<li>micro作为api网关，反向代理tea-api部分的rest api，同时提供负载均衡的功能。</li>
+<li>etcd作为服务注册和服务发现中心，同时充当配置中心的功能</li>
+</ul>
+<h3 id=服务拆分>服务拆分</h3>
+<p>搭好基本的框架之后我们就要拆分现有的服务。我们的项目算是一个NLP平台，根据定义的规则，解析输入的语句，如果语句符合对应的规则，就打上对应的标签。</p>
+<p>所以对于我们这个项目核心功能就是规则的解析和语句的匹配功能，我把这块叫做tea-core。另外有一部分负责和web交互，提供对应的api。另外还提供了tea-core之上封装的一些功能：规则树编辑、跑批支持、测试集、系统配置等等功能，我把这块叫做tea-web。</p>
+<p>在代码中这两块本来耦合就比较少，拆分过程还是很容易的。拆分出来的两部分通过grpc通讯，解决两部分耦合的问题。</p>
+<h2 id=部署>部署</h2>
+<p>项目代码推送到主分支之后，我们会使用gitlab的CICD工具，自动化构建docker镜像。然后推送到我们私有的阿里云docker registry服务器上去。部署时使用docker-compose来部署
+。</p>
+<p>由于自动化CICD的应用和docker镜像的打包，极大的减轻了我们自己的运维负担。</p>
+<h2 id=感悟>感悟</h2>
+<p>自己之前也没有接触过微服务，这算是自己做的第一个微服务实践。由于公司也没有懂这方面的人，一切都是我自己搜集文档、了解微服务当中的概念，一点点试错，一点点搭起来的。但第一次实践微服务，肯定有很多不成熟的地方。</p>
+</div>
+<footer class=post__footer>
+<div class="post__tags tags clearfix"><svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5.0 11V3C0 1.5.8.8.8.8S1.5.0 3 0h8c1.5.0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 100-6 3 3 0 000 6z"/></svg>
+<ul class=tags__list>
+<li class=tags__item><a class="tags__link btn" href=/tags/%E7%BC%96%E7%A8%8B/ rel=tag>编程</a></li>
+</ul>
+</div>
+</footer>
+</article>
+</main>
+<div class="authorbox clearfix">
+<figure class=authorbox__avatar>
+<img alt="Simon Ding avatar" src=/img/avatar.png class=avatar height=90 width=90>
+</figure>
+<div class=authorbox__header>
+<span class=authorbox__name></span>
+</div>
+<div class=authorbox__description>
+韶华易逝，只争朝夕
+</div>
+</div>
+<nav class="post-nav flex">
+<div class="post-nav__item post-nav__item--prev">
+<a class=post-nav__link href=/post/2019/09/go-qt/ rel=prev><span class=post-nav__caption>«&#8201;上一篇</span><p class=post-nav__post-title>Go 语言 QT 开发踩坑</p></a>
+</div>
+<div class="post-nav__item post-nav__item--next">
+<a class=post-nav__link href=/post/2021/09/my_new_pc/ rel=next><span class=post-nav__caption>下一篇&#8201;»</span><p class=post-nav__post-title>关于组装的新电脑</p></a>
+</div>
+</nav>
+<section class=comments>
+<script src=https://utteranc.es/client.js repo=simon-ding/blog-comment issue-term=pathname theme=github-light crossorigin=anonymous async></script>
+</section>
+</div>
+</div>
+<footer class=footer>
+<div class="container footer__container flex">
+<div class=footer__copyright>
+&copy; 2021 Simon Ding.
+<span class=footer__copyright-credits>基于 <a href=https://gohugo.io/ rel="nofollow noopener" target=_blank>Hugo</a> 引擎和 <a href=https://github.com/Vimux/Mainroad/ rel="nofollow noopener" target=_blank>Mainroad</a>主題</span>
+</div>
+<script async src=//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js></script>
+<span id=busuanzi_container_site_pv>本站总访问量<span id=busuanzi_value_site_pv></span>次</span>
+</div>
+</footer>
+</div>
+<script async defer src=/js/menu.js></script>
+<script src=/js/custom.js></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+</body>
+</html>
