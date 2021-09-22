@@ -131,7 +131,7 @@ elk代表elasticsearch、logstash和kibana，是最为成熟的一套日志收�
             - <span style=color:#ae81ff>SERVER_HOST=&#34;0&#34;</span>
 
 </code></pre></div><p>我们的logstash配置pipeline如下(./config/logstash/pipeline.conf)：</p>
-<pre><code class=language-conf data-lang=conf>input {
+<pre tabindex=0><code class=language-conf data-lang=conf>input {
     tcp {
         port =&gt; 5000
         codec =&gt; &quot;json&quot;
@@ -157,7 +157,7 @@ docker-compose -f elk.yml up -d
 </code></pre></div><p>这样就装好了elk平台，访问 http://localhost:5601 可以看到kibana的web管理界面。</p>
 <h2 id=spring-boot配置>spring boot配置</h2>
 <p>jhipster的项目默认集成了logstash支持，只需要开启就可以了，修改下面几个参数：</p>
-<pre><code class=language-properties data-lang=properties>jhipster.logging.logstash.enabled = true
+<pre tabindex=0><code class=language-properties data-lang=properties>jhipster.logging.logstash.enabled = true
 jhipster.logging.logstash.host = localhost  #logstash所在主机
 jhipster.logging.logstash.port = 5000 #配置监听的tcp端口
 </code></pre><p>启动项目，在kibana里建立索引，即可以看到生成的log数据了。</p>
