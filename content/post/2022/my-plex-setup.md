@@ -29,7 +29,7 @@ alist不仅支持的网盘多，而且有web界面，还支持aria2离线下载�
 
 如果想加速世界各地的访问，还可以给plex套上cloudflare，所有流量都走cdn，而且还是免费的，爽歪歪！
 
-![plex](https://img.simonding.com/2022/plex-my.png)
+![plex](https://img.simonding.com/2022/my-plex.png)
 
 这套搞成功之后还是挺舒服的，配合plex pass可以在各种客户端观看阿里云盘里的资源，还可以分享给女朋友利用plex的共同观看功能一直看，异地恋神器了有没有！
 
