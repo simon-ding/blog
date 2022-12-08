@@ -10,11 +10,7 @@
 			<div class="post__meta meta">{{ . }}</div>
 			{{- end }}
 		</header>
-		{{- if .Params.thumbnail }}
-		<figure class="post__thumbnail">
-			<img src="{{ .Params.thumbnail | relURL }}" alt="{{ .Title }}">
-		</figure>
-		{{- end }}
+		{{ partial "post_thumbnail.html" (dict "class" "post" "page" .) }}
 		{{- partial "post_toc.html" . -}}
 		<div class="content post__content clearfix">
 			{{ .Content }}
@@ -27,6 +23,6 @@
 	</article>
 </main>
 {{ partial "authorbox.html" . }}
-{{ partial "post_nav.html" . }}
+{{ partial "pager.html" . }}
 {{ partial "comments.html" . }}
 {{ end }}

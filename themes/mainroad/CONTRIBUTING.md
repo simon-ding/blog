@@ -32,6 +32,26 @@ or demo projects, or copy/pasteable snippets, which you use in those examples.
 * Any message or error you get from Hugo, if you do.
 * A screenshot of any visual bug.
 
+Please, take in consideration the next template to report your bug:
+
+> **Hugo version**\
+> _Run `hugo version` and paste output here._
+>
+> **Theme is up to date?**\
+> _No | Yes_
+>
+> **Expected behavior**\
+> _A short and expressive description of what behavior you're expecting._
+>
+> **Current behavior**\
+> _A short sentence explaining what's actually happening, possibly containing screenshots._
+>
+> **Steps to reproduce / Code to reproduce**\
+> _A step by step description of how to trigger this bug. / Provide link to a demo project which reproduces this bug._
+>
+> **Additional info**\
+> _Anything unusual about your environment or deployment process? Anything else do we need to know? Optional._
+
 **Note:** If you find a **Closed** issue that seems like it is the same bug that you're experiencing, open a new issue
 and include a link to the original issue in the body of your new one.
 
@@ -69,7 +89,7 @@ comments and it may take some time to complete.
   * Be less than 2048 bytes
   * Be minified to a single line with no formatting
   * Not contain any JS or CSS section inside it
-  * Not contain any additional transformations (matrix, translate, scale)
+  * Not contain any additional transformations (matrix, translate, scale) or negative viewBox position values
   * Сompatible with [GPLv2 License](LICENSE.md)
 * Maintain clean commit history and use meaningful commit messages. Pull Requests with messy commit history (with
 commit messages like "update", "another update", etc) are difficult to review and won't be merged, even if the changes
@@ -90,8 +110,8 @@ to those feedback, otherwise the PR will be closed after 2-4 weeks of inactivity
 1. Run `npm i` in the repository root
 1. Create a new *dedicated branch* with descriptive name from `master`
 1. Make your change and commit to the new branch from the previous step
-   1. Write a clear commit message
-   1. If you've added code that need documentation, update the README.md
+    1. Write a clear commit message
+    1. If you've added code that need documentation, update the README.md
 1. Make sure your code lints (`npm test`)
 1. Push to your fork
 1. Submit a Pull Request (PR) to the upstream

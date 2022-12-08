@@ -5,16 +5,13 @@ lastmod: 2022-12-07T23:55:45Z
 draft: false
 keywords: [“plex”, "aliyun", "streaming media"]
 description: ""
-tags: 
-#  - 编程
-#  - 摄影
-  - 生活
-  - 折腾
+tags: ["生活","折腾"]
 categories: 
 #  - 编程
 #  - 摄影
   - 生活
 author: "simon"
+toc: false # Enable Table of Contents for specific page
 ---
 
 出差这段时间，自己的时间多了一些。最近利用这段时间，打造了一个自己的在线流媒体服务。使用效果还挺好，分享一下我的搭建方法
