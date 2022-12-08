@@ -73,9 +73,9 @@ enableEmoji = true
   url = "/"
 
 [[menu.main]]             # config your menu              # 配置目录
-  name = "Instagram"
+  name = "标签"
   weight = 11
-  url = "https://www.instagram.com/simon_ding_/" 
+  url = "/tags/" 
 [[menu.main]]             # config your menu              # 配置目录
   name = "500px"
   weight = 12
