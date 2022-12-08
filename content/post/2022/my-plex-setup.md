@@ -21,9 +21,7 @@ author: "simon"
 
 这件事情的起因是因为了解到阿里云盘可以挂载成webdav形式，例如通过这个项目 [aliyundrive-webdav](https://github.com/messense/aliyundrive-webdav) 可以让阿里云盘轻松支持webdav，我们都知道webdav是一个开放的协议，有了webdav支持，就可以做很多其他事情。
 
-后来有了解到了一个更强大的项目 [alist](https://github.com/alist-org/alist)，不紧支持阿里云盘webdav，还支持其他乱七八糟一系列网盘。下面是官网列出的一直支持的网盘
-
-![alist](https://img.simonding.com/2022/alist-backend.png)
+后来有了解到了一个更强大的项目 [alist](https://github.com/alist-org/alist)，不紧支持阿里云盘webdav，还支持其他乱七八糟一系列网盘。参照官网支持的网盘列表。
 
 alist不仅支持的网盘多，而且有web界面，还支持aria2离线下载。可以说功能非常全面了。
 
