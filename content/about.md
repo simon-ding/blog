@@ -12,11 +12,6 @@ toc: false # Enable Table of Contents
 authorbox: false
 sidebar: false
 menu: main
-
 ---
 
-大龄程序员，热爱生活，热爱技术，喜欢摄影，喜欢游泳
-
-* 微信: 14132002712
-* 邮箱: i@simonding.com
-* 500px: [Simon_Ding](https://500px.me/simonding)
+韶华易逝，只争朝夕。记录日常以及折腾的东西。
